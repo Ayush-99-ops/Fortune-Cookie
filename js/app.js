@@ -2,7 +2,8 @@
   'use strict';
 
   const PUBLISHER_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
-  const CONTACT_EMAIL = 'hello@fortunecookie.app';
+  const SITE_URL = 'https://fortune_cookies.pathluno.com';
+  const CONTACT_EMAIL = 'contact@pathluno.com';
   const STORAGE_HISTORY = 'fc_history';
   const STORAGE_DAILY = 'fc_daily';
   const MAX_HISTORY = 5;
@@ -593,9 +594,9 @@
   function renderAbout() {
     main.innerHTML = `<div class="page-enter prose">
       <h1 class="page-title">About Fortune Cookie</h1>
-      <p>Fortune Cookie is a small corner of the internet dedicated to one of humanity's oldest questions: <em>what if a crispy dessert knew something you didn't?</em> We built this site for people who crack a cookie, laugh at the fortune, screenshot it for the group chat, and come back tomorrow for another.</p>
+      <p>Fortune Cookie is part of <strong>Pathluno</strong> — a small project for people who crack a cookie, laugh at the fortune, screenshot it for the group chat, and come back tomorrow for another.</p>
       <p>Here you will find digital fortune cookies with 70 unique messages, a daily fortune that resets at midnight, zodiac readings that mix cosmic poetry with practical advice, and a blog full of real articles about where fortune cookies actually came from and why we believe them anyway.</p>
-      <p>We are not psychics. We are not astrologers with certificates. We are enthusiasts of randomness, ritual, and the strange comfort of being told that yes, you are built different, and lucky numbers are 7, 11, and 33. Questions, feedback, or fortune submissions? Reach us at <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>.</p>
+      <p>We are not psychics. We are not astrologers with certificates. We are enthusiasts of randomness, ritual, and the strange comfort of a good line at the right moment. Questions, feedback, or fortune submissions? Email us at <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>.</p>
     </div>`;
     if (leaderboard) leaderboard.dataset.label = 'Ad · 728x90';
     bindNavLinks();
@@ -606,7 +607,7 @@
     main.innerHTML = `<div class="page-enter prose">
       <h1 class="page-title">Privacy Policy</h1>
       <p><em>Last updated: June 24, 2026</em></p>
-      <p>Fortune Cookie ("we", "us", "our") operates the website at fortunecookie.app. This Privacy Policy explains how we collect, use, and protect your information when you use our site, in compliance with GDPR and requirements for Google AdSense publishers.</p>
+      <p>Pathluno ("we", "us", "our") operates Fortune Cookie at <a href="${SITE_URL}">fortune_cookies.pathluno.com</a>. This Privacy Policy explains how we collect, use, and protect your information when you use our site, in compliance with GDPR and requirements for Google AdSense publishers.</p>
       <h2>Information We Collect</h2>
       <p><strong>Local storage:</strong> We store your recent fortune cookie results and daily fortune date in your browser's localStorage. This data never leaves your device and is not transmitted to our servers.</p>
       <p><strong>Automatically collected data:</strong> When you visit our site, third-party services (including Google AdSense) may collect information such as your IP address, browser type, device information, pages visited, and cookies. We do not directly collect personal identification information unless you contact us by email.</p>
@@ -622,7 +623,7 @@
       <h2>Changes</h2>
       <p>We may update this policy periodically. Continued use of the site after changes constitutes acceptance of the updated policy.</p>
       <h2>Contact</h2>
-      <p>Email: <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></p>
+      <p>Website: <a href="${SITE_URL}">fortune_cookies.pathluno.com</a><br>Email: <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></p>
     </div>`;
     if (leaderboard) leaderboard.dataset.label = 'Ad · 728x90';
     bindNavLinks();
