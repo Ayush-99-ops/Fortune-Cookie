@@ -333,14 +333,11 @@
     if (!leaderboard) return;
     const ins = leaderboard.querySelector('.adsbygoogle');
     const slotId = AD_SLOTS.leaderboard;
-    if (ins && slotId) {
+    if (!ins) return;
+    if (slotId) {
       ins.setAttribute('data-ad-slot', slotId);
       leaderboard.classList.add('ad-slot--live');
       leaderboard.removeAttribute('data-label');
-    } else if (ins) {
-      ins.remove();
-      leaderboard.classList.remove('ad-slot--live');
-      leaderboard.dataset.label = 'Ad · 728x90';
     }
   }
 
