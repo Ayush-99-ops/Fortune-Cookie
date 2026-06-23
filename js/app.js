@@ -1,7 +1,13 @@
 (function () {
   'use strict';
 
-  const PUBLISHER_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+  const AD_CLIENT = 'ca-pub-3538565638908023';
+  /* Paste ad unit slot IDs from AdSense → Ads → By ad unit */
+  const AD_SLOTS = {
+    leaderboard: '',
+    rectangle: '',
+    banner: '',
+  };
   const SITE_URL = 'https://fortune_cookies.pathluno.com';
   const CONTACT_EMAIL = 'contact@pathluno.com';
   const STORAGE_HISTORY = 'fc_history';
@@ -300,9 +306,42 @@
   }
 
   function adSlot(size, label) {
-    return `<div class="ad-slot ad-${size}" data-ad-size="${label.replace('Ad · ', '')}" data-label="${label}" role="complementary" aria-label="Advertisement">
-      <!-- <ins class="adsbygoogle" style="display:inline-block" data-ad-client="${PUBLISHER_ID}" data-ad-slot="0000000000"></ins> -->
-    </div>`;
+    const slotId = AD_SLOTS[size] || '';
+    const styles = {
+      leaderboard: 'display:inline-block;width:728px;height:90px',
+      rectangle: 'display:inline-block;width:300px;height:250px',
+      banner: 'display:inline-block;width:468px;height:60px',
+    };
+    const ins = slotId
+      ? `<ins class="adsbygoogle" style="${styles[size] || 'display:block'}"
+          data-ad-client="${AD_CLIENT}" data-ad-slot="${slotId}"></ins>`
+      : '';
+    const live = ins ? ' ad-slot--live' : '';
+    const labelAttr = ins ? '' : ` data-label="${label}"`;
+    return `<div class="ad-slot ad-${size}${live}" data-ad-size="${label.replace('Ad · ', '')}"${labelAttr} role="complementary" aria-label="Advertisement">${ins}</div>`;
+  }
+
+  function loadAds() {
+    if (typeof window.adsbygoogle === 'undefined') return;
+    document.querySelectorAll('.adsbygoogle:not([data-adsbygoogle-status])').forEach((el) => {
+      if (!el.getAttribute('data-ad-slot')) return;
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { /* ad block */ }
+    });
+  }
+
+  function setupLeaderboardAd() {
+    if (!leaderboard) return;
+    const ins = leaderboard.querySelector('.adsbygoogle');
+    const slotId = AD_SLOTS.leaderboard;
+    if (ins && slotId) {
+      ins.setAttribute('data-ad-slot', slotId);
+      leaderboard.classList.add('ad-slot--live');
+      leaderboard.removeAttribute('data-label');
+    } else if (ins) {
+      ins.remove();
+      leaderboard.classList.remove('ad-slot--live');
+      leaderboard.dataset.label = 'Ad · 728x90';
+    }
   }
 
   function formatNumbers(nums) {
@@ -506,7 +545,6 @@
       </div>
       <aside>${adSlot('rectangle', 'Ad · 300x250')}</aside>
     </div>`;
-    if (leaderboard) leaderboard.dataset.label = 'Ad · 728x90';
     bindCookie();
     bindNavLinks();
   }
@@ -526,7 +564,6 @@
       <div class="zodiac-panel" id="zodiac-panel" aria-live="polite"></div>
       ${adSlot('rectangle', 'Ad · 300x250')}
     </div>`;
-    if (leaderboard) leaderboard.dataset.label = 'Ad · 728x90';
 
     const panel = document.getElementById('zodiac-panel');
     document.getElementById('zodiac-grid').addEventListener('click', (e) => {
@@ -565,7 +602,6 @@
       <p class="page-subtitle">History, psychology, chaos, and recipes.</p>
       <div class="card-grid">${ARTICLES.map(blogCardHTML).join('')}</div>
     </div>`;
-    if (leaderboard) leaderboard.dataset.label = 'Ad · 728x90';
     bindNavLinks();
   }
 
@@ -585,7 +621,6 @@
       <h2 class="section-heading">More Articles</h2>
       <div class="card-grid">${others.map(blogCardHTML).join('')}</div>
     </article>`;
-    if (leaderboard) leaderboard.dataset.label = 'Ad · 728x90';
     setMeta(article.title + ' | Fortune Cookie', article.meta);
     bindNavLinks();
   }
@@ -598,7 +633,6 @@
       <p>Here you will find digital fortune cookies with 70 unique messages, a daily fortune that resets at midnight, zodiac readings that mix cosmic poetry with practical advice, and a blog full of real articles about where fortune cookies actually came from and why we believe them anyway.</p>
       <p>We are not psychics. We are not astrologers with certificates. We are enthusiasts of randomness, ritual, and the strange comfort of a good line at the right moment. Questions, feedback, or fortune submissions? Email us at <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>.</p>
     </div>`;
-    if (leaderboard) leaderboard.dataset.label = 'Ad · 728x90';
     bindNavLinks();
   }
 
@@ -625,7 +659,6 @@
       <h2>Contact</h2>
       <p>Website: <a href="${SITE_URL}">fortune_cookies.pathluno.com</a><br>Email: <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></p>
     </div>`;
-    if (leaderboard) leaderboard.dataset.label = 'Ad · 728x90';
     bindNavLinks();
   }
 
@@ -648,6 +681,7 @@
     if (path.startsWith('/article') && id) {
       renderArticle(id);
       setActiveNav('/blog');
+      loadAds();
       return;
     }
 
@@ -655,6 +689,7 @@
     route.render();
     setMeta(route.title, route.meta);
     setActiveNav(path === '/' ? '/' : path);
+    loadAds();
   }
 
   function bindNavLinks() {
@@ -665,7 +700,7 @@
 
   /* ── Init ── */
   document.getElementById('year').textContent = new Date().getFullYear();
-  if (leaderboard) leaderboard.dataset.label = 'Ad · 728x90';
+  setupLeaderboardAd();
 
   navToggle.addEventListener('click', () => {
     const open = siteNav.classList.toggle('open');
@@ -680,4 +715,5 @@
   window.addEventListener('hashchange', handleRoute);
   if (!location.hash) location.hash = '/';
   else handleRoute();
+  loadAds();
 })();
