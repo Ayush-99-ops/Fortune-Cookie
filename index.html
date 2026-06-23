@@ -42,14 +42,10 @@
       <p class="hero-subtitle">Tap the cookie. Receive wisdom. Question everything.</p>
     </header>
 
-    <div class="ad-slot ad-leaderboard" data-ad-size="728x90" role="complementary" aria-label="Advertisement"></div>
-
     <div class="main-grid">
       <section class="cookie-section" aria-label="Fortune cookie">
-        <p id="cookie-hint" class="cookie-hint">
-          <span class="cookie-hint-arrow">👇</span>
-          Click the cookie to crack your fate
-        </p>
+        <div class="cookie-playfield">
+        <p id="cookie-hint" class="cookie-hint">Click the cookie to crack your fate 👇</p>
 
         <div class="cookie-arena">
           <div class="cookie-glow" aria-hidden="true"></div>
@@ -106,7 +102,6 @@
           </div>
         </div>
 
-        <!-- Fortune reveal — outside cookie stage so it's always visible -->
         <div id="fortune-reveal" class="fortune-reveal" aria-live="polite" aria-hidden="true">
           <div class="fortune-reveal-inner">
             <div class="fortune-reveal-header">
@@ -122,12 +117,15 @@
         </div>
 
         <button id="btn-reset" class="btn btn-reset" type="button">🥠 Crack Another Cookie</button>
+        </div>
       </section>
 
       <aside class="sidebar" aria-label="Sidebar">
         <div class="ad-slot ad-rectangle" data-ad-size="300x250" role="complementary" aria-label="Advertisement"></div>
       </aside>
     </div>
+
+    <div class="ad-slot ad-leaderboard" data-ad-size="728x90" role="complementary" aria-label="Advertisement"></div>
 
     <section class="history-section" aria-label="Fortune history">
       <h2>📜 Recent Fortunes</h2>
